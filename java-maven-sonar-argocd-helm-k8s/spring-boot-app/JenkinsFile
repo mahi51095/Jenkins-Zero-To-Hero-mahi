@@ -20,17 +20,16 @@ pipeline {
     }
 
     stage('Build and Test') {
-      steps {
-        dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
-          sh '''
-            echo "Fixing file permissions..."
-            sudo chown -R jenkins:jenkins .
-            sudo chmod -R u+w .
-            mvn clean package
-          '''
-        }
-      }
+  steps {
+    dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+      sh '''
+        echo "Fixing file permissions..."
+        chmod -R u+w .
+        mvn clean package
+      '''
     }
+  }
+}
 
     stage('Static Code Analysis') {
       steps {

@@ -20,10 +20,18 @@ pipeline {
       }
     }
 
-    stage('Static Code Analysis') {
-      environment {
-        SONAR_URL = "http://13.217.213.245:9000"
-      }
+    sstage('Build and Test') {
+  steps {
+    dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+      sh '''
+        echo "Fixing file permissions..."
+        sudo chown -R jenkins:jenkins .
+        sudo chmod -R u+w .
+        mvn clean package
+      '''
+    }
+  }
+}
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
           dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {

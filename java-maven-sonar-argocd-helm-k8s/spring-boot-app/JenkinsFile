@@ -37,6 +37,13 @@ pipeline {
         }
       }
     }
+    stage('Debug Docker Setup') {
+  steps {
+    sh 'ls -l /var/run/docker.sock'
+    sh 'docker --version'
+  }
+}
+
 
     stage('Build and Push Docker Image') {
       environment {

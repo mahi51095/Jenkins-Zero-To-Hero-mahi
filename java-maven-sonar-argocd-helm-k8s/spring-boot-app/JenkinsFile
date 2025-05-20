@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'maven:3.9.0-eclipse-temurin-17'
+      image 'abhishekf5/maven-abhishek-docker-agent:v1'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
@@ -37,6 +37,12 @@ pipeline {
         }
       }
     }
+    stage('Debug Docker CLI') {
+  steps {
+    sh 'which docker || echo "docker not found"'
+    sh 'docker --version || echo "docker --version failed"'
+  }
+}
     stage('Debug Docker Setup') {
   steps {
     sh 'ls -l /var/run/docker.sock'
